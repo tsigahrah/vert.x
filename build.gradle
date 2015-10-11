@@ -1,0 +1,25 @@
+buildscript {
+	sourceSets {
+	    main {
+	        java {
+	            srcDirs 'src/main/java', 'src/main/generated'
+	        }
+	        resources {
+	            srcDir 'src/main/resources'
+	        }
+	    }
+	}
+}
+
+dependencies {
+	compile 'io.netty:netty-common:4.0.31.Final'
+	compile 'io.netty:netty-buffer:4.0.31.Final'
+	compile 'io.netty:netty-transport:4.0.31.Final'
+	compile 'io.netty:netty-handler:4.0.31.Final'
+	compile 'io.netty:netty-codec:4.0.31.Final'
+	compile 'io.netty:netty-codec-http:4.0.31.Final'
+	compile 'org.slf4j:slf4j-api:1.7.12'
+	compile 'log4j:log4j:1.2.17'
+	compile 'io.vertx:vertx-codegen:3.1.0'
+	compile 'io.vertx:vertx-docgen:3.1.0'
+}
