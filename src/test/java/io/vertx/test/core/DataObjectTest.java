@@ -16,18 +16,20 @@
 
 package io.vertx.test.core;
 
+// XXX unresolved dependencies were commented. 
+
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.test.codegen.AggregatedDataObject;
 import io.vertx.test.codegen.ChildInheritingDataObject;
-import io.vertx.test.codegen.ChildInheritingDataObjectConverter;
+//import io.vertx.test.codegen.ChildInheritingDataObjectConverter;
 import io.vertx.test.codegen.ChildNotInheritingDataObject;
-import io.vertx.test.codegen.ChildNotInheritingDataObjectConverter;
+//import io.vertx.test.codegen.ChildNotInheritingDataObjectConverter;
 import io.vertx.test.codegen.NoConverterDataObject;
 import io.vertx.test.codegen.TestDataObject;
-import io.vertx.test.codegen.TestDataObjectConverter;
+//import io.vertx.test.codegen.TestDataObjectConverter;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -161,7 +163,7 @@ public class DataObjectTest extends VertxTestBase {
     json.put("objectMap", toJson(map));
 
     TestDataObject obj = new TestDataObject();
-    TestDataObjectConverter.fromJson(json, obj);
+//    TestDataObjectConverter.fromJson(json, obj);
 
     assertEquals(stringValue, obj.getStringValue());
     assertEquals(booleanValue, obj.isBooleanValue());
@@ -245,7 +247,7 @@ public class DataObjectTest extends VertxTestBase {
     json.put("aggregatedDataObjects", new JsonArray().add(new JsonObject().put("value", aggregatedDataObject.getValue()).getMap()));
     json.put("addedAggregatedDataObjects", new JsonArray().add(new JsonObject().put("value", aggregatedDataObject.getValue()).getMap()));
     obj = new TestDataObject();
-    TestDataObjectConverter.fromJson(json, obj);
+//    TestDataObjectConverter.fromJson(json, obj);
     assertEquals(aggregatedDataObject, obj.getAggregatedDataObject());
     assertEquals(Collections.singletonList(aggregatedDataObject), obj.getAggregatedDataObjects());
     assertEquals(Collections.singletonList(aggregatedDataObject), obj.getAddedAggregatedDataObjects());
@@ -254,10 +256,10 @@ public class DataObjectTest extends VertxTestBase {
   @Test
   public void testEmptyJsonToDataObject() {
 
-    JsonObject json = new JsonObject();
+//    JsonObject json = new JsonObject();
 
     TestDataObject obj = new TestDataObject();
-    TestDataObjectConverter.fromJson(json, obj);
+//    TestDataObjectConverter.fromJson(json, obj);
 
     assertEquals(null, obj.getStringValue());
     assertEquals(false, obj.isBooleanValue());
@@ -425,7 +427,7 @@ public class DataObjectTest extends VertxTestBase {
 
 
     JsonObject json = new JsonObject();
-    TestDataObjectConverter.toJson(obj, json);
+//    TestDataObjectConverter.toJson(obj, json);
     json = new JsonObject(json.encode());
 
     assertEquals(stringValue, json.getString("stringValue"));
@@ -489,10 +491,10 @@ public class DataObjectTest extends VertxTestBase {
   @Test
   public void testEmptyDataObjectToJson() {
 
-    TestDataObject obj = new TestDataObject();
+//    TestDataObject obj = new TestDataObject();
 
     JsonObject json = new JsonObject();
-    TestDataObjectConverter.toJson(obj, json);
+//    TestDataObjectConverter.toJson(obj, json);
     json = new JsonObject(json.encode());
 
     assertEquals(null, json.getString("stringValue"));
@@ -588,11 +590,11 @@ public class DataObjectTest extends VertxTestBase {
     JsonObject expectedJson = new JsonObject();
     expectedJson.put("childProperty", "childProperty_value");
     expectedJson.put("parentProperty", "parentProperty_value");
-    ChildInheritingDataObjectConverter.fromJson(expectedJson, obj);
+//    ChildInheritingDataObjectConverter.fromJson(expectedJson, obj);
     assertEquals("childProperty_value", obj.getChildProperty());
     assertEquals("parentProperty_value", obj.getParentProperty());
     JsonObject json = new JsonObject();
-    ChildInheritingDataObjectConverter.toJson(obj, json);
+//    ChildInheritingDataObjectConverter.toJson(obj, json);
     assertEquals(expectedJson, json);
   }
 
@@ -602,11 +604,11 @@ public class DataObjectTest extends VertxTestBase {
     JsonObject expectedJson = new JsonObject();
     expectedJson.put("childProperty", "childProperty_value");
     expectedJson.put("parentProperty", "parentProperty_value");
-    ChildNotInheritingDataObjectConverter.fromJson(expectedJson, obj);
+//    ChildNotInheritingDataObjectConverter.fromJson(expectedJson, obj);
     assertEquals("childProperty_value", obj.getChildProperty());
     assertEquals(null, obj.getParentProperty());
     JsonObject json = new JsonObject();
-    ChildNotInheritingDataObjectConverter.toJson(obj, json);
+//    ChildNotInheritingDataObjectConverter.toJson(obj, json);
     expectedJson.remove("parentProperty");
     assertEquals(expectedJson, json);
   }
