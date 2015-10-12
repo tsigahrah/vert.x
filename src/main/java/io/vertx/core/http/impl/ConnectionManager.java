@@ -39,7 +39,8 @@ public abstract class ConnectionManager {
   private final int maxSockets;
   private final boolean keepAlive;
   private final boolean pipelining;
-  private final Map<TargetAddress, ConnQueue> connQueues = new ConcurrentHashMap<>();
+  // CUSTOM ConcurrentHashMap, as otherwise it causes issues with iOS
+  private final ConcurrentHashMap<TargetAddress, ConnQueue> connQueues = new ConcurrentHashMap<>();
 
   ConnectionManager(int maxSockets, boolean keepAlive, boolean pipelining) {
     this.maxSockets = maxSockets;

@@ -49,6 +49,10 @@ public class FileResolver {
 
   public static final String DISABLE_FILE_CACHING_PROP_NAME = "vertx.disableFileCaching";
   public static final String DISABLE_CP_RESOLVING_PROP_NAME = "vertx.disableFileCPResolving";
+  
+  // CUSTOM workaround for iOS
+  public static final String SYSTEM_TMP_FOLDER = "/tmp/";
+  
   public static final String CACHE_DIR_BASE_PROP_NAME = "vertx.cacheDirBase";
 
   private static final String DEFAULT_CACHE_DIR_BASE = ".vertx";
@@ -56,7 +60,7 @@ public class FileResolver {
   private static boolean NON_UNIX_FILE_SEP = !FILE_SEP.equals("/");
   private static final boolean ENABLE_CACHING = !Boolean.getBoolean(DISABLE_FILE_CACHING_PROP_NAME);
   private static final boolean ENABLE_CP_RESOLVING = !Boolean.getBoolean(DISABLE_CP_RESOLVING_PROP_NAME);
-  private static final String CACHE_DIR_BASE = System.getProperty(CACHE_DIR_BASE_PROP_NAME, DEFAULT_CACHE_DIR_BASE);
+  private static final String CACHE_DIR_BASE = SYSTEM_TMP_FOLDER + System.getProperty(CACHE_DIR_BASE_PROP_NAME, DEFAULT_CACHE_DIR_BASE);
 
   private final Vertx vertx;
   private final File cwd;
@@ -239,7 +243,7 @@ public class FileResolver {
     String cacheDirName = CACHE_DIR_BASE + "/file-cache-" + UUID.randomUUID().toString();
     cacheDir = new File(cacheDirName);
     if (!cacheDir.mkdirs()) {
-      throw new IllegalStateException("Failed to create cache dir");
+      throw new IllegalStateException("Failed to create cache dir: " + cacheDirName);
     }
     // Add shutdown hook to delete on exit
     shutdownHook = new Thread(() -> deleteCacheDir(ar -> {}));
