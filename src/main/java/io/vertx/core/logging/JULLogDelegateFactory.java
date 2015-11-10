@@ -16,12 +16,11 @@
 
 package io.vertx.core.logging;
 
-import io.vertx.core.spi.logging.LogDelegate;
-import io.vertx.core.spi.logging.LogDelegateFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.LogManager;
+
+import io.vertx.core.spi.logging.LogDelegate;
+import io.vertx.core.spi.logging.LogDelegateFactory;
 
 /**
  * A {@link io.vertx.core.spi.logging.LogDelegateFactory} which creates {@link JULLogDelegate} instances.
@@ -36,7 +35,8 @@ public class JULLogDelegateFactory implements LogDelegateFactory {
     if (System.getProperty("java.util.logging.config.file") == null) {
       try (InputStream is = JULLogDelegateFactory.class.getClassLoader().getResourceAsStream("vertx-default-jul-logging.properties")) {
         if (is != null) {
-          LogManager.getLogManager().readConfiguration(is);
+        	// CUSTOM the below breaks with NPE
+//          LogManager.getLogManager().readConfiguration(is);
         }
       } catch (IOException ignore) {
       }

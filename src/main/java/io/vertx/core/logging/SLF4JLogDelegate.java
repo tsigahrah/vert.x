@@ -149,6 +149,7 @@ public class SLF4JLogDelegate implements LogDelegate {
   }
 
   private void log(int level, Object message, Throwable t) {
+	// CUSTOM correct vararg usage for NULL params
     log(level, message, t, null);
   }
 

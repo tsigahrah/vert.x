@@ -163,6 +163,7 @@ public class JULLogDelegate implements LogDelegate {
   }
 
   private void log(Level level, Object message, Throwable t) {
+	// CUSTOM correct vararg usage for NULL params
     log(level, message, t, null);
   }
 }

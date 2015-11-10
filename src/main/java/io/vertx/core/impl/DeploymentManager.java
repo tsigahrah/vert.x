@@ -16,21 +16,38 @@
 
 package io.vertx.core.impl;
 
-import io.vertx.core.*;
-import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
-import io.vertx.core.spi.VerticleFactory;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.ServiceLoader;
+import java.util.Set;
+import java.util.UUID;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Context;
+import io.vertx.core.DeploymentOptions;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.Verticle;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.spi.VerticleFactory;
 
 /**
  *
@@ -259,8 +276,20 @@ public class DeploymentManager {
       throw new IllegalArgumentException("Factory already registered");
     }
     facts.add(factory);
+    
+    // <--
     // Sort list in ascending order
-    facts.sort((fact1, fact2) -> fact1.order() - fact2.order());
+//  facts.sort((fact1, fact2) -> fact1.order() - fact2.order());
+    // CUSTOM avoiding the default interface method sort()
+    Object[] a = facts.toArray();
+    Arrays.sort(a, (Comparator) (fact1, fact2) -> ((VerticleFactory) fact1).order() - ((VerticleFactory) fact2).order());
+    ListIterator<VerticleFactory> i = facts.listIterator();
+    for (Object e : a) {
+        i.next();
+        i.set((VerticleFactory) e);
+    }
+    // -->
+
     factory.init(vertx);
   }
 
