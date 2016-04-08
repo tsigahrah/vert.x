@@ -11,7 +11,7 @@ buildscript {
 	}
 }
 
-version = '8u60'
+version = '8u77'
 
 dependencies {
 	compile 'io.netty:netty-common:4.0.31.Final'
